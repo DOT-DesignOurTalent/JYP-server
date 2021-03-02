@@ -52,12 +52,6 @@ public class AccountApplicationService {
     }
 
     @Transactional
-    public void changeNickname(Account account, AccountChangeNicknameRequest request) {
-        account.updateNickname(request.getName());
-        this.accountRepository.save(account);
-    }
-
-    @Transactional
     public void changePassphrase(Account account, AccountChangePassphraseRequest request) {
         account.updatePassphrase(this.passphraseEncoder.encode(request.getNewPassphrase()));
         this.accountRepository.save(account);

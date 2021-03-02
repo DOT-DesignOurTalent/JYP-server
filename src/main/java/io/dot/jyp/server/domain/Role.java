@@ -28,6 +28,10 @@ public class Role {
     private Name name;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "id", column = @Column(name = "resource_id", nullable = false)),
+            @AttributeOverride(name = "type", column = @Column(name = "resource_type", nullable = false))
+    })
     private Resource resource;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -48,9 +52,14 @@ public class Role {
         this.name = name;
         this.resource = resource;
     }
+    public Role(Name name, List<Permission> permissions) {
+        this.name = name;
+        this.resource = new Resource(name.getTarget());
+        this.permissions = permissions;
+    }
 
-    public static Role of(Name name, Resource resource) {
-        return new Role(name, resource);
+    public static Role of(Name name, List<Permission> permission) {
+        return new Role(name, permission);
     }
 
     public static String formatToGrantedAuthority(Resource resource, Permission permission) {
@@ -62,6 +71,15 @@ public class Role {
                 .stream()
                 .map(permission -> formatToGrantedAuthority(this.resource, permission))
                 .collect(Collectors.toList());
+    }
+
+    public void updatePermissions(List<Permission> permissions) {
+        this.permissions.removeIf(permission -> !permissions.contains(permission));
+        this.permissions.addAll(
+                permissions.stream()
+                        .filter(permission -> !this.permissions.contains(permission))
+                        .collect(Collectors.toList())
+        );
     }
 
     public boolean isAdmin() {
@@ -131,7 +149,7 @@ public class Role {
                     .filter(v -> name.equals(v.name) || name.equalsIgnoreCase(v.name))
                     .findFirst()
                     .orElseThrow(() ->
-                            new IllegalArgumentException(String.format("'%s' is not supported authority name", name))
+                            new IllegalArgumentException(String.format("'%s' is not supported role.", name))
                     );
         }
     }

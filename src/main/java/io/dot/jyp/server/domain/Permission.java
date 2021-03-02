@@ -11,22 +11,19 @@ public enum Permission {
 
 
     // Common Group Permission
-    CREATE_GROUP(Name.CREATE_GROUP, Resource.Type.GROUP),
-    CREATE_GROUP_ACCOUNTS(Name.CREATE_GROUP_ACCOUNTS, Resource.Type.GROUP),
-    CHANGE_GROUP_NAME(Name.CHANGE_GROUP_NAME, Resource.Type.GROUP),
-    INVITE_GROUP_ACCOUNTS(Name.INVITE_GROUP_ACCOUNTS, Resource.Type.GROUP),
-    RE_INVITE_GROUP_ACCOUNTS(Name.RE_INVITE_GROUP_ACCOUNTS, Resource.Type.GROUP),
-    CANCEL_INVITE_GROUP_ACCOUNT(Name.CANCEL_INVITE_GROUP_ACCOUNT, Resource.Type.GROUP),
-    DELETE_GROUP_ACCOUNT(Name.DELETE_GROUP_ACCOUNT, Resource.Type.GROUP),
-    GET_GROUP_ACCOUNTS(Name.GET_GROUP_ACCOUNTS, Resource.Type.GROUP),
-    CHANGE_GROUP_ACCOUNT_ROLES(Name.CHANGE_GROUP_ACCOUNT_ROLES, Resource.Type.GROUP),
+    GROUP_CREATE(Name.GROUP_CREATE, Resource.Type.GROUP),
+    GROUP_INVITE_USERS(Name.GROUP_INVITE_USERS, Resource.Type.GROUP),
+    GROUP_RE_INVITE_USERS(Name.GROUP_RE_INVITE_USERS, Resource.Type.GROUP),
+    GROUP_DECLINE_INVITE(Name.CANCEL_INVITE_GROUP_ACCOUNT, Resource.Type.GROUP),
+    GROUP_REMOVE(Name.GROUP_REMOVE, Resource.Type.GROUP),
+    GROUP_CHANGE_USERS_ROLE(Name.GROUP_CHANGE_USERS_ROLE, Resource.Type.GROUP),
 
-    READY_GAME_ACCOUNTS(Name.READY_GAME_ACCOUNTS, Resource.Type.GAME),
-    START_GAME(Name.START_GAME, Resource.Type.GAME),
-    REQUEST_APPEAL_ACCOUNTS(Name.REQUEST_APPEAL_ACCOUNTS, Resource.Type.GAME),
-    RESTART_GAME(Name.RESTART_GAME, Resource.Type.GAME),
-    APPROVE_APPEAL(Name.APPROVE_APPEAL, Resource.Type.GAME),
-    DECLINE_APPEAL(Name.DECLINE_APPEAL, Resource.Type.GAME);
+    GAME_READY(Name.GAME_READY, Resource.Type.GAME),
+    GAME_START(Name.GAME_START, Resource.Type.GAME),
+    GAME_RE_START(Name.GAME_RE_START, Resource.Type.GAME),
+    GAME_REQUEST_APPEAL(Name.GAME_REQUEST_APPEAL, Resource.Type.GAME),
+    GAME_APPROVE_APPEAL(Name.GAME_APPROVE_APPEAL, Resource.Type.GAME),
+    GAME_DECLINE_APPEAL(Name.GAME_DECLINE_APPEAL, Resource.Type.GAME);
 
     private final String name;
     private final Resource.Type target;
@@ -46,21 +43,18 @@ public enum Permission {
     }
 
     public static class Name {
-        public static final String CREATE_GROUP = "CREATE_GROUP";
-        public static final String CREATE_GROUP_ACCOUNTS = "CREATE_GROUP_ACCOUNTS";
-        public static final String CHANGE_GROUP_NAME = "CHANGE_GROUP_NAME";
-        public static final String INVITE_GROUP_ACCOUNTS = "INVITE_GROUP_ACCOUNTS";
-        public static final String RE_INVITE_GROUP_ACCOUNTS = "RE_INVITE_GROUP_ACCOUNTS";
+        public static final String GROUP_CREATE = "GROUP_CREATE";
+        public static final String GROUP_INVITE_USERS = "GROUP_INVITE_USERS";
+        public static final String GROUP_RE_INVITE_USERS = "GROUP_RE_INVITE_USERS";
         public static final String CANCEL_INVITE_GROUP_ACCOUNT = "CANCEL_INVITE_GROUP_ACCOUNT";
-        public static final String DELETE_GROUP_ACCOUNT = "DELETE_GROUP_ACCOUNT";
-        public static final String GET_GROUP_ACCOUNTS = "GET_GROUP_ACCOUNTS";
-        public static final String CHANGE_GROUP_ACCOUNT_ROLES = "CHANGE_GROUP_ACCOUNT_ROLES";
+        public static final String GROUP_REMOVE = "GROUP_REMOVE";
+        public static final String GROUP_CHANGE_USERS_ROLE = "GROUP_CHANGE_USERS_ROLE";
 
-        public static final String READY_GAME_ACCOUNTS = "READY_GAME_ACCOUNTS";
-        public static final String START_GAME = "START_GAME";
-        public static final String REQUEST_APPEAL_ACCOUNTS = "REQUEST_APPEAL_ACCOUNTS";
-        public static final String RESTART_GAME = "RESTART_GAME";
-        public static final String APPROVE_APPEAL = "APPROVE_APPEAL";
-        public static final String DECLINE_APPEAL = "DECLINE_APPEAL";
+        public static final String GAME_READY = "GAME_READY";
+        public static final String GAME_START = "GAME_START";
+        public static final String GAME_RE_START = "GAME_RE_START";
+        public static final String GAME_REQUEST_APPEAL = "GAME_REQUEST_APPEAL";
+        public static final String GAME_APPROVE_APPEAL = "GAME_APPROVE_APPEAL";
+        public static final String GAME_DECLINE_APPEAL = "GAME_DECLINE_APPEAL";
     }
 }

@@ -48,32 +48,6 @@ public class Account {
     private Account(
             String email,
             String passphrase,
-            String nickname,
-            Status status,
-            List<Role> roles
-    ) {
-        this.email = email;
-        this.passphrase = passphrase;
-        this.nickname = nickname;
-        this.status = status;
-        this.addRoles(roles);
-    }
-
-    private Account(
-            String email,
-            String passphrase,
-            Status status,
-            LocalDateTime created_at
-    ) {
-        this.email = email;
-        this.passphrase = passphrase;
-        this.status = status;
-        this.created_at = created_at;
-    }
-
-    private Account(
-            String email,
-            String passphrase,
             Status status,
             List<Role> roles,
             LocalDateTime created_at
@@ -96,52 +70,18 @@ public class Account {
                 Collections.singletonList(
                         Role.of(
                                 Role.Name.ORGANIZATION_USER,
-                                Resource.organization()
+                                Arrays.asList(
+                                        Permission.GROUP_CREATE,
+                                        Permission.GROUP_INVITE_USERS
+                                )
                         )
                 ),
                 LocalDateTime.now(ZoneId.of("Asia/Seoul"))
         );
     }
 
-    public static Account active(
-            String email,
-            String passphrase,
-            String nickname,
-            List<Role> roles
-    ) {
-        return new Account(
-                email,
-                passphrase,
-                nickname,
-                Status.ACTIVE,
-                roles
-        );
-    }
-
-
-    public boolean isAdmin() {
-        return this.roles.stream().anyMatch(Role::isAdmin);
-    }
-
-    private void checkRoleAddable(Role role) {
-        if (this.getMatchedRole(role.getResource(), role.getName()).isPresent()) {
-            throw new BadRequestException(String.format(
-                    "account '%s' already has role of authority '%s' at '%s'",
-                    this.getId(),
-                    role.getName(),
-                    role.getResource().getType()
-            ));
-        }
-        if (role.getResource().isGroup() && this.hasAnyRoleOf(role.getResource())) {
-            throw new BadRequestException(
-                    String.format("account '%s' already has role of group '%s'", this.getId(), role.getResource())
-            );
-        }
-    }
-
-    public boolean hasAnyRoleOf(Resource resource) {
-        return this.roles.stream()
-                .anyMatch(role -> role.getResource().equals(resource));
+    public void addRoles(List<Role> newRoles) {
+        newRoles.forEach(this::addRole);
     }
 
     public void addRole(Role role) {
@@ -150,16 +90,43 @@ public class Account {
         this.roles.add(role);
     }
 
-    public void addRoles(List<Role> newRoles) {
-        newRoles.forEach(this::addRole);
+    private void checkRoleAddable(Role role) {
+        if (this.getMatchedRole(role.getResource(), role.getName()).isPresent()) {
+            throw new BadRequestException(String.format(
+                    "account '%s' already has role '%s' at '%s'",
+                    this.getEmail(),
+                    role.getName(),
+                    role.getResource().getType()
+            ));
+        }
+        if (role.getResource().isGroup() && this.hasAnyRoleOf(role.getResource())) {
+            throw new BadRequestException(
+                    String.format("account '%s' already has role of group '%s'", this.getEmail(), role.getResource())
+            );
+        }
     }
 
-    public boolean isInvited() {
-        return this.status.equals(Status.INVITED);
+    public Optional<Role> getMatchedRole(Resource resource, Role.Name roleName) {
+        return this.roles.stream()
+                .filter(role -> role.isSameResource(resource) && role.isSameRole(roleName))
+                .findFirst();
+    }
+
+    public boolean hasAnyRoleOf(Resource resource) {
+        return this.roles.stream()
+                .anyMatch(role -> role.getResource().equals(resource));
+    }
+
+    public void updatePassphrase(String passphrase) {
+        this.passphrase = passphrase;
     }
 
     public boolean isActive() {
         return this.status.equals(Status.ACTIVE);
+    }
+
+    public boolean isAdmin() {
+        return this.roles.stream().anyMatch(Role::isAdmin);
     }
 
     public boolean isDeleted() {
@@ -199,20 +166,6 @@ public class Account {
         this.roles.clear();
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void updatePassphrase(String passphrase) {
-        this.passphrase = passphrase;
-    }
-
-    public Optional<Role> getMatchedRole(Resource resource, Role.Name roleName) {
-        return this.roles.stream()
-                .filter(role -> role.isSameResource(resource) && role.isSameRole(roleName))
-                .findFirst();
-    }
-
     public void deleteMatchedRole(Resource resource, Role.Name roleName) {
         this.roles.removeIf(role ->
                 role.isSameResource(resource) && role.isSameRole(roleName)
@@ -221,8 +174,8 @@ public class Account {
 
     @Schema(name = "AccountStatus", enumAsRef = true)
     public enum Status {
-        INVITED("invited"),
         ACTIVE("active"),
+        INACTIVE("inactive"),
         DELETED("deleted");
 
         private final String name;
