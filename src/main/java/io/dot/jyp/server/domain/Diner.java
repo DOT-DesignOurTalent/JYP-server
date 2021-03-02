@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Embeddable
+@Entity
 @Table(name = "diners", indexes = {
         @Index(name = "diners_group_id", columnList = "group_id"),
 })
