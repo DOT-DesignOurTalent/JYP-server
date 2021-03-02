@@ -1,10 +1,10 @@
 package io.dot.jyp.server.web;
 
 import io.dot.jyp.server.application.GroupApplicationService;
-import io.dot.jyp.server.application.dto.*;
-import io.dot.jyp.server.config.UserAccount;
-import io.dot.jyp.server.domain.Account;
-import io.swagger.v3.oas.annotations.Parameter;
+import io.dot.jyp.server.application.dto.GroupCreateRequest;
+import io.dot.jyp.server.application.dto.GroupCreateResponse;
+import io.dot.jyp.server.application.dto.GroupEnterWithCodeRequest;
+import io.dot.jyp.server.application.dto.GroupEnterWithCodeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +23,13 @@ public class GroupController {
     @PostMapping("/create")
     @ResponseStatus(value = HttpStatus.CREATED)
     public GroupCreateResponse create(@RequestBody final GroupCreateRequest request) {
-        return groupApplicationService.groupCreate(request);
+        return groupApplicationService.create(request);
     }
 
     @PostMapping("/enter-group-code")
     @ResponseStatus(value = HttpStatus.OK)
-    public GroupEnterWithCodeResponse groupEnterWithCode(@RequestBody final GroupEnterWithCodeRequest request) {
-        return groupApplicationService.groupEnterWithCode(request);
+    public GroupEnterWithCodeResponse enterWithCode(@RequestBody final GroupEnterWithCodeRequest request) {
+        return groupApplicationService.enterWithCode(request);
     }
 
 //    @PostMapping("/{groupCode}/add-diners")

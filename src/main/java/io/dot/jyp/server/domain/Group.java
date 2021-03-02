@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Table(name = "groups")
@@ -26,8 +25,8 @@ public class Group {
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_group_id"))
     private List<Diner> diners = new ArrayList<>();
 
-    @Column(name = "group_code", nullable = false)
-    private String groupCode;
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @ElementCollection
     private List<String> nicknames = new ArrayList<>();
@@ -37,47 +36,39 @@ public class Group {
 
     private Group(
             List<Diner> diners,
-            String groupCode,
+            String code,
             String nickname,
             LocalDateTime created_at
-    ){
-        this.diners=diners;
-        this.groupCode = groupCode;
+    ) {
+        this.diners = diners;
+        this.code = code;
         this.nicknames.add(nickname);
         this.created_at = created_at;
     }
 
-    public static String generateGroupCode(){
-        Random random = new Random();
-        int length = 6;
-        return  random.ints(48,122)
-                .filter(i-> (i<57 || i>65) && (i <90 || i>97))
-                .mapToObj(i -> (char) i)
-                .limit(length)
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                .toString();
-    }
-
-    public static Group groupCreate(
+    public static Group create(
             List<Diner> diners,
-            String groupCode,
+            String code,
             String nickname
 
-    ){
+    ) {
         return new Group(
                 diners,
-                groupCode,
+                code,
                 nickname,
                 LocalDateTime.now()
         );
     }
 
-    public void addNickname(String nickname){
+    public void addNickname(String nickname) {
         this.nicknames.add(nickname);
 
     }
-    public void addDiners(List<Diner> diners){
-        for(Diner diner : diners){ this.diners.add(diner); }
+
+    public void addDiners(List<Diner> diners) {
+        for (Diner diner : diners) {
+            this.diners.add(diner);
+        }
 
     }
 }

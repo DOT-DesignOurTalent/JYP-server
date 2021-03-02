@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupEnterWithCodeRequest {
-    private String groupCode;
+    private String code;
 }

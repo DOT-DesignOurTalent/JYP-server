@@ -2,7 +2,7 @@ package io.dot.jyp.server.infra;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import io.dot.jyp.server.domain.FileIoClient;
-import io.dot.jyp.server.domain.NicknameGenerator;
+import io.dot.jyp.server.domain.RandomValueGenerator;
 import io.dot.jyp.server.infra.dto.NicknameCsvObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,23 +22,23 @@ import java.util.stream.Collectors;
 public class OpenCsvClient implements FileIoClient {
 
     @Override
-    public NicknameGenerator readCsvFile(String path) {
-        NicknameGenerator nicknameLists = null;
+    public RandomValueGenerator readCsvFile(String path) {
+        RandomValueGenerator nicknameList = null;
         try (Reader reader = Files.newBufferedReader(Paths.get(path));) {
             List<NicknameCsvObject> nicknameObjects = new CsvToBeanBuilder(reader)
                     .withType(NicknameCsvObject.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build().parse();
             reader.close();
-            nicknameLists = NicknameGenerator.of(
+            nicknameList = RandomValueGenerator.of(
                     nicknameObjects.stream().map(NicknameCsvObject::getFirst).collect(Collectors.toList()),
                     nicknameObjects.stream().map(NicknameCsvObject::getSecond).collect(Collectors.toList())
             );
-            return nicknameLists;
+            return nicknameList;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return nicknameLists;
+        return nicknameList;
     }
 
     @Override
