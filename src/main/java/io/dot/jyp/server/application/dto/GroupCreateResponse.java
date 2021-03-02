@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupCreateResponse {
-    private String groupCode;
+    private String code;
     private String nickname;
 
     public static GroupCreateResponse of(
-            String groupCode,
+            String code,
             String nickname
     ) {
         return new GroupCreateResponse(
-                groupCode,
+                code,
                 nickname
         );
     }
