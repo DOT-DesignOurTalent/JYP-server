@@ -1,7 +1,10 @@
 package io.dot.jyp.server.web;
 
 import io.dot.jyp.server.application.AccountApplicationService;
-import io.dot.jyp.server.application.dto.*;
+import io.dot.jyp.server.application.dto.AccountChangePassphraseRequest;
+import io.dot.jyp.server.application.dto.AccountLoginRequest;
+import io.dot.jyp.server.application.dto.AccountSignUpRequest;
+import io.dot.jyp.server.application.dto.AccountVerifyPassphraseRequest;
 import io.dot.jyp.server.config.UserAccount;
 import io.dot.jyp.server.domain.Account;
 import io.swagger.v3.oas.annotations.Parameter;

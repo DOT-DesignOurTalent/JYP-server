@@ -1,6 +1,5 @@
 package io.dot.jyp.server.application;
 
-import io.dot.jyp.server.application.dto.AccountChangeNicknameRequest;
 import io.dot.jyp.server.application.dto.AccountChangePassphraseRequest;
 import io.dot.jyp.server.application.dto.AccountLoginRequest;
 import io.dot.jyp.server.application.dto.AccountSignUpRequest;
