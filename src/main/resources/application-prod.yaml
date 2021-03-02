@@ -1,6 +1,34 @@
 spring:
   application:
     name: jyp-server-prod
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    platform: postgres
+    hikari:
+      auto-commit: false
+      idle-timeout: 10000
+      minimumIdle: 10
+      maximum-pool-size: 30
+      read-only: false
+      connection-timeout: 20000
+      data-source-properties:
+        stringtype: unspecified
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
 app:
   name: jyp-server
   security:
