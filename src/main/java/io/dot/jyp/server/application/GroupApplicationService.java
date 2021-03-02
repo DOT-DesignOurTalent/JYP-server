@@ -17,60 +17,57 @@ public class GroupApplicationService {
     private final AccountRepository accountRepository;
     private final FileIoClient fileIoClient;
     private final String nicknamePath;
+    private final RandomValueGenerator randomValueGenerator;
 
     public GroupApplicationService(
             GroupRepository groupRepository,
             RoleRepository roleRepository,
             AccountRepository accountRepository,
             @Qualifier("OpenCsvClient") FileIoClient fileIoClient,
-            @Qualifier("nicknamePath") String nicknamePath
+            @Qualifier("nicknamePath") String nicknamePath,
+            RandomValueGenerator randomValueGenerator
     ) {
         this.groupRepository = groupRepository;
         this.roleRepository = roleRepository;
         this.accountRepository = accountRepository;
         this.fileIoClient = fileIoClient;
         this.nicknamePath = nicknamePath;
+        this.randomValueGenerator = randomValueGenerator;
     }
-
-
-    public String generateRandomGroupCode(){ return Group.generateGroupCode(); }
-
-    public String generateRandomNickname() {
-        return fileIoClient.readCsvFile(nicknamePath).makeNickname();
-    }
-
 
     @Transactional
-    public GroupCreateResponse groupCreate(GroupCreateRequest request) {
-        String groupCode = generateRandomGroupCode();
-        groupRepository.existsByGroupCodeThenThrow(groupCode);
-        String nickname = generateRandomNickname();
-        Group group = Group.groupCreate(
+    public GroupCreateResponse create(GroupCreateRequest request) {
+        String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
+        Group group = Group.create(
                 request.getDiners(),
-                groupCode,
+                randomValueGenerator.generateRandomCode(),
                 nickname
         );
         groupRepository.save(group);
 
-        return GroupCreateResponse.of(groupCode,nickname);
+        return GroupCreateResponse.of(
+                group.getCode(),
+                nickname
+        );
     }
 
     @Transactional
-    public GroupEnterWithCodeResponse groupEnterWithCode(GroupEnterWithCodeRequest request) {
-        String groupCode = request.getGroupCode();
-        Group group = groupRepository.findGroupByGroupCode(groupCode)
-                .orElseThrow(() -> new BadRequestException(String.format("group code '%s' does not exist", groupCode), ErrorCode.BAD_REQUEST));
+    public GroupEnterWithCodeResponse enterWithCode(GroupEnterWithCodeRequest request) {
+        String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
 
-        String nickname = generateRandomNickname();
+        Group group = groupRepository.findGroupByCode(request.getCode())
+                .orElseThrow(() -> new BadRequestException(String.format("group code '%s' does not exist", request.getCode()), ErrorCode.BAD_REQUEST));
+
         group.addNickname(nickname);
         groupRepository.save(group);
 
         return GroupEnterWithCodeResponse.of(nickname);
     }
+
     @Transactional
-    public void groupAddDiners(GroupAddDinersRequest request, String groupCode) {
-        Group group = groupRepository.findGroupByGroupCode(groupCode)
-                .orElseThrow(() -> new BadRequestException(String.format("group code '%s' does not exist", groupCode), ErrorCode.BAD_REQUEST));
+    public void groupAddDiners(GroupAddDinersRequest request, String code) {
+        Group group = groupRepository.findGroupByCode(code)
+                .orElseThrow(() -> new BadRequestException(String.format("group code '%s' does not exist", code), ErrorCode.BAD_REQUEST));
 
         group.addDiners(request.getDiners());
         groupRepository.save(group);

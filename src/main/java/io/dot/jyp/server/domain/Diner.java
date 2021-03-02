@@ -30,16 +30,17 @@ public class Diner {
     public Diner(
             String name,
             String kind
-    ){
+    ) {
         this.name = name;
         this.kind = kind;
     }
+
     public Diner(
             String name,
             String kind,
             double latitude,
             double longitude
-    ){
+    ) {
         this.name = name;
         this.kind = kind;
         this.longitude = longitude;

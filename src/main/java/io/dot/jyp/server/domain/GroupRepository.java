@@ -9,15 +9,15 @@ import java.util.Optional;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
-    default void existsByGroupCodeThenThrow(String groupCode) {
-        if (this.existsByGroupCode(groupCode)) {
-            throw new BadRequestException(String.format("group code '%s' is already exist", groupCode), ErrorCode.INTERNAL_SERVER);
+    default void existsByCodeThenThrow(String code) {
+        if (this.existsByCode(code)) {
+            throw new BadRequestException(String.format("group code '%s' is already exist", code), ErrorCode.INTERNAL_SERVER);
         }
     }
 
-    boolean existsByGroupCode(String groupCode);
+    boolean existsByCode(String code);
 
-    Optional<Group> findGroupByGroupCode(String groupCode);
+    Optional<Group> findGroupByCode(String code);
 
 }
 
