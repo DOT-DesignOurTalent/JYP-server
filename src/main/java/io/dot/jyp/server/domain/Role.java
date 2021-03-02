@@ -52,6 +52,7 @@ public class Role {
         this.name = name;
         this.resource = resource;
     }
+
     public Role(Name name, List<Permission> permissions) {
         this.name = name;
         this.resource = new Resource(name.getTarget());
