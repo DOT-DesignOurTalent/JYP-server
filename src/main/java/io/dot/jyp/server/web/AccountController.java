@@ -33,17 +33,6 @@ public class AccountController {
         accountApplicationService.login(request);
     }
 
-    @PatchMapping("/{accountId}/nickname")
-    @ResponseStatus(value = HttpStatus.OK)
-    @PreAuthorize("#account.id == #accountId")
-    public void changeNickname(
-            @Parameter(hidden = true) @UserAccount final Account account,
-            @PathVariable final String accountId,
-            @RequestBody final AccountChangeNicknameRequest request
-    ) {
-        this.accountApplicationService.changeNickname(account, request);
-    }
-
     @PatchMapping("/{accountId}/passphrase")
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("#account.id == #accountId")

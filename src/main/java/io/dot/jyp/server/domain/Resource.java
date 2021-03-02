@@ -16,25 +16,23 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 public class Resource {
-    private Long id;
-
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    public static Resource of(Long id, Type type) {
-        return new Resource(id, type);
+    public static Resource of(Type type) {
+        return new Resource(type);
     }
 
-    public static Resource of(Long id, String type) {
-        return of(id, Type.of(type));
+    public static Resource of(String type) {
+        return of(Type.of(type));
     }
 
-    public static Resource organization(Long id) {
-        return new Resource(id, Type.ORGANIZATION);
+    public static Resource organization() {
+        return new Resource(Type.ORGANIZATION);
     }
 
-    public static Resource group(Long id) {
-        return new Resource(id, Type.GROUP);
+    public static Resource group() {
+        return new Resource(Type.GROUP);
     }
 
     public boolean isOrganization() {
@@ -46,17 +44,8 @@ public class Resource {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resource resource = (Resource) o;
-        return Objects.equals(id, resource.id) &&
-                type == resource.type;
-    }
-
-    @Override
     public int hashCode() {
-        return Objects.hash(id, type);
+        return Objects.hash(type);
     }
 
     @Schema(name = "ResourceType", enumAsRef = true)

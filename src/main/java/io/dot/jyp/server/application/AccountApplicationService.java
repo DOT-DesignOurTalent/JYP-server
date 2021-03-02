@@ -1,6 +1,9 @@
 package io.dot.jyp.server.application;
 
-import io.dot.jyp.server.application.dto.*;
+import io.dot.jyp.server.application.dto.AccountChangeNicknameRequest;
+import io.dot.jyp.server.application.dto.AccountChangePassphraseRequest;
+import io.dot.jyp.server.application.dto.AccountLoginRequest;
+import io.dot.jyp.server.application.dto.AccountSignUpRequest;
 import io.dot.jyp.server.domain.*;
 import io.dot.jyp.server.domain.exception.BadRequestException;
 import io.dot.jyp.server.domain.exception.ErrorCode;
@@ -15,18 +18,17 @@ public class AccountApplicationService {
     private final PassphraseEncoder passphraseEncoder;
     private final PassphraseVerifier passphraseVerifier;
     private final RoleRepository roleRepository;
-    private final AuthorityRepository authorityRepository;
 
     public AccountApplicationService(
             AccountRepository accountRepository,
             PassphraseEncoder passphraseEncoder,
             PassphraseVerifier passphraseVerifier,
-            RoleRepository roleRepository, AuthorityRepository authorityRepository) {
+            RoleRepository roleRepository
+    ) {
         this.accountRepository = accountRepository;
         this.passphraseEncoder = passphraseEncoder;
         this.passphraseVerifier = passphraseVerifier;
         this.roleRepository = roleRepository;
-        this.authorityRepository = authorityRepository;
     }
 
     @Transactional
@@ -37,7 +39,6 @@ public class AccountApplicationService {
                 request.getEmail(),
                 this.passphraseEncoder.encode(request.getPassphrase())
         );
-
         this.accountRepository.save(targetAccount);
     }
 
@@ -47,12 +48,6 @@ public class AccountApplicationService {
         Account account = accountRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadRequestException(String.format("user email '%s' does not exist", email), ErrorCode.EMAIL_DOES_NOT_EXIST));
         this.passphraseVerifier.validate(account.getEmail(), request.getPassphrase());
-        this.accountRepository.save(account);
-    }
-
-    @Transactional
-    public void changeNickname(Account account, AccountChangeNicknameRequest request) {
-        account.updateNickname(request.getName());
         this.accountRepository.save(account);
     }
 
