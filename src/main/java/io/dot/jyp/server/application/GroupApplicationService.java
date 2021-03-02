@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class GroupApplicationService {
     private final GroupRepository groupRepository;
     private final RoleRepository roleRepository;
-    private final AuthorityRepository authorityRepository;
     private final AccountRepository accountRepository;
     private final FileIoClient fileIoClient;
     private final String nicknamePath;
@@ -22,14 +21,12 @@ public class GroupApplicationService {
             GroupRepository groupRepository,
             RoleRepository roleRepository,
             AccountRepository accountRepository,
-            AuthorityRepository authorityRepository,
             @Qualifier("OpenCsvClient") FileIoClient fileIoClient,
             @Qualifier("nicknamePath") String nicknamePath
     ) {
         this.groupRepository = groupRepository;
         this.roleRepository = roleRepository;
         this.accountRepository = accountRepository;
-        this.authorityRepository = authorityRepository;
         this.fileIoClient = fileIoClient;
         this.nicknamePath = nicknamePath;
     }
