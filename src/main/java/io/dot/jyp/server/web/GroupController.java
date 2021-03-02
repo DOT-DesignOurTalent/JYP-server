@@ -22,39 +22,23 @@ public class GroupController {
 
     @PostMapping("/create")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public GroupCreateResponse create(
-            @Parameter(hidden = true) @UserAccount final Account account,
-            @RequestBody final GroupCreateRequest request
-    ) {
-        return groupApplicationService.createGroup(account, request);
+    public GroupCreateResponse create(@RequestBody final GroupCreateRequest request) {
+        return groupApplicationService.groupCreate(request);
     }
 
-    @PostMapping("/generate-nickname")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public String generateNickname(
-    ) {
-        return groupApplicationService.generateNickname();
-    }
-
-    @PostMapping("/in/{groupId}")
+    @PostMapping("/enter-group-code")
     @ResponseStatus(value = HttpStatus.OK)
-    public GroupAdmissionResponse admission(
-            @RequestBody final GroupCreateRequest request,
-            @PathVariable final String groupId
-    ) {
-        return GroupAdmissionResponse.of(
-                2,
-                "배고픈 두더지"
-        );
+    public GroupEnterWithCodeResponse groupEnterWithCode(@RequestBody final GroupEnterWithCodeRequest request) {
+        return groupApplicationService.groupEnterWithCode(request);
     }
 
-    @PostMapping("/message")
-    @ResponseStatus(value = HttpStatus.OK)
-    public GroupMessageResponse message(@RequestBody final GroupMessageRequest request) {
-        return GroupMessageResponse.of(
-                2,
-                "안녕하세요",
-                "배고픈 두더지"
-        );
-    }
+//    @PostMapping("/{groupCode}/add-diners")
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public void groupEnterWithCode(
+//            @RequestBody final GroupAddDinersRequest request,
+//            @PathVariable final String groupCode
+//    ) {
+//        groupApplicationService.groupAddDiners(request, groupCode);
+//    }
+
 }
