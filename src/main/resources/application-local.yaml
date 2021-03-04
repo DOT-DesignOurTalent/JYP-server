@@ -1,10 +1,10 @@
 spring:
   application:
-    name: jyp-server-prod
+    name: jyp-server-local
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:postgresql://ec2-35-174-118-71.compute-1.amazonaws.com:5432/danlit9ahtirmh?password=c86da47781a4b353361c1a3c63fefc9f40bca067fffddd06b5f7bff23db36036&sslmode=require&user=kvjrieirtrzhmo
+    username: kvjrieirtrzhmo
+    password: c86da47781a4b353361c1a3c63fefc9f40bca067fffddd06b5f7bff23db36036
     platform: postgres
     hikari:
       auto-commit: false
@@ -29,6 +29,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
 app:
   name: jyp-server
   security:
@@ -41,7 +42,7 @@ app:
       size: 3
 
   jyp:
-    url: https://project-jyp.herokuapp.com
+    url: http://localhost:8080
     secret:
     access-token:
     file:
@@ -57,17 +58,6 @@ app:
       client-id:
       redirect:
       url: https://dapi.kakao.com
-
-bucket4j:
-  enabled: true
-  filters:
-    - cache-name: buckets
-      url: /*
-      rate-limits:
-        - bandwidths:
-            - capacity: 5
-              time: 10
-              unit: seconds
 
 springdoc:
   version: '@project.version@'
@@ -86,7 +76,7 @@ springdoc:
     - /test/**
 
 server:
-  port: ${PORT}
+  port: 8080
   error:
     whitelabel:
       enabled: true
