@@ -1,10 +1,12 @@
 package io.dot.jyp.server.infra.dto;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class KakaoLocalSearchKeywordDto {
     private String placeName;

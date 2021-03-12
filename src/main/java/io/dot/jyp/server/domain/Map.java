@@ -1,7 +1,6 @@
 package io.dot.jyp.server.domain;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class Map {

@@ -7,7 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Pagination<T> {
     private Meta pagination;
@@ -27,7 +26,7 @@ public class Pagination<T> {
     }
 
     @Getter
-    @AllArgsConstructor
+    @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Meta {
         private SameName sameName;
@@ -35,6 +34,26 @@ public class Pagination<T> {
         private Integer totalCount;
         private boolean isEnd;
 
+        public Meta(
+                SameName sameName,
+                Integer pageable_count,
+                Integer totalCount,
+                boolean isEnd
+        ) {
+            this.sameName = new SameName(
+                    sameName.getRegion(),
+                    sameName.getKeyword(),
+                    sameName.getSelectedRegion()
+            );
+            this.pageable_count = pageable_count;
+            this.totalCount = totalCount;
+            this.isEnd = isEnd;
+        }
+
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor(access = AccessLevel.PROTECTED)
         public static class SameName {
             private List<String> region;
             private String keyword;

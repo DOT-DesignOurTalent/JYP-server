@@ -1,6 +1,9 @@
 package io.dot.jyp.server.infra;
 
-import io.dot.jyp.server.domain.*;
+import io.dot.jyp.server.domain.Diner;
+import io.dot.jyp.server.domain.DinerFinderClient;
+import io.dot.jyp.server.domain.Map;
+import io.dot.jyp.server.domain.Pagination;
 import io.dot.jyp.server.infra.dto.KakaoLocalSearchKeywordDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
