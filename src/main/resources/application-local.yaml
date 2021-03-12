@@ -55,9 +55,10 @@ app:
 
   social:
     kakao:
-      client-id:
-      redirect:
+      client-id: 527358
+      app-name: dot
       url: https://dapi.kakao.com
+      authorization: KakaoAK fdab0d539cbc7337f99f9e8bba34d511
 
 springdoc:
   version: '@project.version@'

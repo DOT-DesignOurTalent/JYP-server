@@ -6,44 +6,38 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "diners", indexes = {
-        @Index(name = "diners_group_id", columnList = "group_id"),
-})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Diner {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String placeName;
+    private String category_name;
+    private String road_address_name;
+    private String phone;
+    private String place_url;
+    private String distance;
+    private String x;
+    private String y;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-    @Column(name = "kind", nullable = false)
-    private String kind;
-    @Column(name = "latitude")
-    private double latitude;
-    @Column(name = "longitude")
-    private double longitude;
-
-    public Diner(
-            String name,
-            String kind
+    public static Diner fromKakaoLocal(
+            String placeName,
+            String category_name,
+            String road_address_name,
+            String phone,
+            String place_url,
+            String distance,
+            String x,
+            String y
     ) {
-        this.name = name;
-        this.kind = kind;
-    }
-
-    public Diner(
-            String name,
-            String kind,
-            double latitude,
-            double longitude
-    ) {
-        this.name = name;
-        this.kind = kind;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        return new Diner(
+                placeName,
+                category_name,
+                road_address_name,
+                phone,
+                place_url,
+                distance,
+                x,
+                y
+        );
     }
 }
