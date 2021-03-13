@@ -22,7 +22,7 @@ public class KakaoHeaderInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         HttpHeaders headers = request.getHeaders();
-        //headers.add("Authorization", "Bearer " + this.kakaolocalProperties.getAccessToken());
+        headers.add("Authorization", "KakaoAK " + this.kakaoLocalProperties.getAuthorization());
         return execution.execute(request, body);
     }
 }
