@@ -1,14 +1,19 @@
 package io.dot.jyp.server.domain;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "groups")
@@ -17,58 +22,54 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Group {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_group_id"))
-    private List<Diner> diners = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    @Column(name = "code", nullable = false)
-    private String code;
+  @ElementCollection
+  private List<String> menu = new ArrayList<>();
 
-    @ElementCollection
-    private List<String> nicknames = new ArrayList<>();
+  @Column(name = "code", nullable = false)
+  private String code;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
+  @ElementCollection
+  private List<String> nicknames = new ArrayList<>();
 
-    private Group(
-            List<Diner> diners,
-            String code,
-            String nickname,
-            LocalDateTime created_at
-    ) {
-        this.diners = diners;
-        this.code = code;
-        this.nicknames.add(nickname);
-        this.created_at = created_at;
-    }
+  @Column(name = "created_at")
+  private LocalDateTime created_at;
 
-    public static Group create(
-            List<Diner> diners,
-            String code,
-            String nickname
+  private Group(
+      List<String> menu,
+      String code,
+      String nickname,
+      LocalDateTime created_at
+  ) {
+    this.menu = menu;
+    this.code = code;
+    this.nicknames.add(nickname);
+    this.created_at = created_at;
+  }
 
-    ) {
-        return new Group(
-                diners,
-                code,
-                nickname,
-                LocalDateTime.now()
-        );
-    }
+  public static Group create(
+      List<String> category,
+      String code,
+      String nickname
 
-    public void addNickname(String nickname) {
-        this.nicknames.add(nickname);
+  ) {
+    return new Group(
+        category,
+        code,
+        nickname,
+        LocalDateTime.now()
+    );
+  }
 
-    }
+  public void addNickname(String nickname) {
+    this.nicknames.add(nickname);
+  }
 
-    public void addDiners(List<Diner> diners) {
-        for (Diner diner : diners) {
-            this.diners.add(diner);
-        }
-
-    }
+  public void addMenu(List<String> menu) {
+    this.menu.addAll(menu);
+  }
 }

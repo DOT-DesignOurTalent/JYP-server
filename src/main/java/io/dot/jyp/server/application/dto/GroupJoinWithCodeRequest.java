@@ -1,13 +1,15 @@
 package io.dot.jyp.server.application.dto;
 
-import lombok.AccessLevel;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GameStartRequest {
+public class GroupJoinWithCodeRequest {
 
+  private String code;
+  private List<String> menu;
 }

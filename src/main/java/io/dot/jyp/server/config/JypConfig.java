@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JypConfig {
 
-    @Bean
-    @ConfigurationProperties(ResourceFileProperties.RESOURCE_FILE_PROPERTIES_PREFIX)
-    public ResourceFileProperties resourceFileProperties() {
-        return new ResourceFileProperties();
-    }
+  @Bean
+  @ConfigurationProperties(ResourceFileProperties.RESOURCE_FILE_PROPERTIES_PREFIX)
+  public ResourceFileProperties resourceFileProperties() {
+    return new ResourceFileProperties();
+  }
 
-    @Bean
-    @Qualifier("nicknamePath")
-    public String nicknameFilePath(ResourceFileProperties resourceFileProperties) {
-        return resourceFileProperties.getNicknamePath();
-    }
+  @Bean
+  @Qualifier("nicknamePath")
+  public String nicknameFilePath(ResourceFileProperties resourceFileProperties) {
+    return resourceFileProperties.getNicknamePath();
+  }
 }

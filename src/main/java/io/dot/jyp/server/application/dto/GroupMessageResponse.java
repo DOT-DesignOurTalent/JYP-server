@@ -8,19 +8,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupMessageResponse {
-    private int id;
-    private String message;
-    private String name;
 
-    public static GroupMessageResponse of(
-            int id,
-            String message,
-            String name
-    ) {
-        return new GroupMessageResponse(
-                id,
-                message,
-                name
-        );
-    }
+  private int id;
+  private String message;
+  private String name;
+
+  public static GroupMessageResponse of(
+      int id,
+      String message,
+      String name
+  ) {
+    return new GroupMessageResponse(
+        id,
+        message,
+        name
+    );
+  }
 }

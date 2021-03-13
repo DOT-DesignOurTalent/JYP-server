@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GameStartRequest {
+public class AccountVerifyEmailRequest {
 
+  private String email;
 }

@@ -11,8 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NicknameCsvObject {
-    @CsvBindByPosition(position = 0)
-    private String first;
-    @CsvBindByPosition(position = 1)
-    private String second;
+
+  @CsvBindByPosition(position = 0)
+  private String first;
+  @CsvBindByPosition(position = 1)
+  private String second;
 }

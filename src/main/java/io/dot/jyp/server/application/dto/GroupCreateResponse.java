@@ -8,16 +8,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupCreateResponse {
-    private String code;
-    private String nickname;
 
-    public static GroupCreateResponse of(
-            String code,
-            String nickname
-    ) {
-        return new GroupCreateResponse(
-                code,
-                nickname
-        );
-    }
+  private String code;
+  private String nickname;
+
+  public static GroupCreateResponse of(
+      String code,
+      String nickname
+  ) {
+    return new GroupCreateResponse(
+        code,
+        nickname
+    );
+  }
 }

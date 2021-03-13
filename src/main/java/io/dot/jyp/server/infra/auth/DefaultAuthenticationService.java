@@ -9,21 +9,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultAuthenticationService implements AuthenticationService {
-    private final AuthenticationManager authenticationManager;
 
-    public DefaultAuthenticationService(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+  private final AuthenticationManager authenticationManager;
 
-    @Override
-    public boolean authenticate(String id, String passphrase) {
-        try {
-            Authentication authentication = this.authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(id, passphrase)
-            );
-            return authentication.isAuthenticated();
-        } catch (BadCredentialsException e) {
-            return false;
-        }
+  public DefaultAuthenticationService(AuthenticationManager authenticationManager) {
+    this.authenticationManager = authenticationManager;
+  }
+
+  @Override
+  public boolean authenticate(String id, String passphrase) {
+    try {
+      Authentication authentication = this.authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(id, passphrase)
+      );
+      return authentication.isAuthenticated();
+    } catch (BadCredentialsException e) {
+      return false;
     }
+  }
 }
