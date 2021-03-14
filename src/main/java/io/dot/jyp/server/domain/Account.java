@@ -1,5 +1,6 @@
 package io.dot.jyp.server.domain;
 
+import io.dot.jyp.server.domain.Role.Name;
 import io.dot.jyp.server.domain.exception.AuthenticationException;
 import io.dot.jyp.server.domain.exception.BadRequestException;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,9 +18,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,11 +32,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Account extends DomainEntity {
 
   @Column(name = "email", nullable = false)
   private String email;
@@ -57,21 +51,16 @@ public class Account {
   @Enumerated(EnumType.STRING)
   private Status status;
 
-  @Column(name = "created_at")
-  private LocalDateTime created_at;
-
   private Account(
       String email,
       String passphrase,
       Status status,
-      List<Role> roles,
-      LocalDateTime created_at
+      List<Role> roles
   ) {
     this.email = email;
     this.passphrase = passphrase;
     this.status = status;
     this.addRoles(roles);
-    this.created_at = created_at;
   }
 
   public static Account signup(
@@ -86,12 +75,43 @@ public class Account {
             Role.of(
                 Role.Name.ORGANIZATION_USER,
                 Arrays.asList(
-                    Permission.GROUP_CREATE,
-                    Permission.GROUP_INVITE_USERS
+                    Permission.GROUP_CREATE
                 )
             )
-        ),
-        LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+        )
+    );
+  }
+  public void addNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public void assignHostRole() {
+    this.addRoles(
+        Collections.singletonList(
+            Role.of(
+                Name.GROUP_HOST,
+                Arrays.asList(
+                    Permission.GROUP_INVITE_USERS,
+                    Permission.GROUP_CHANGE_USERS_ROLE,
+                    Permission.GROUP_REMOVE,
+                    Permission.GAME_START
+                )
+            )
+        )
+    );
+  }
+
+  public void assignGuestRole() {
+    this.addRoles(
+        Collections.singletonList(
+            Role.of(
+                Name.GROUP_GUEST,
+                Arrays.asList(
+                    Permission.GROUP_INVITE_USERS,
+                    Permission.GAME_READY
+                )
+            )
+        )
     );
   }
 

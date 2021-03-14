@@ -4,6 +4,7 @@ import io.dot.jyp.server.application.dto.GroupCreateRequest;
 import io.dot.jyp.server.application.dto.GroupCreateResponse;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeRequest;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeResponse;
+import io.dot.jyp.server.domain.Account;
 import io.dot.jyp.server.domain.AccountRepository;
 import io.dot.jyp.server.domain.FileIoClient;
 import io.dot.jyp.server.domain.Group;
@@ -47,12 +48,20 @@ public class GroupApplicationService {
   @Transactional
   public GroupCreateResponse create(GroupCreateRequest request) {
     String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
-    Group group = Group.create(
-        request.getMenu(),
-        randomValueGenerator.generateRandomCode(),
-        nickname
+
+    Account account = accountRepository.findWithRoleByEmailAndStatusOrElseThrow(
+        request.getAccount().getEmail(),
+        request.getAccount().getStatus()
     );
+    Group group = Group.create(
+        request.getMenus(),
+        randomValueGenerator.generateRandomCode()
+    );
+
+    account.addNickname(nickname);
+    account.assignHostRole();
     groupRepository.save(group);
+    accountRepository.save(account);
 
     return GroupCreateResponse.of(
         group.getCode(),
@@ -63,14 +72,17 @@ public class GroupApplicationService {
   @Transactional
   public GroupJoinWithCodeResponse joinWithCode(GroupJoinWithCodeRequest request) {
     String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
+    Account account = accountRepository.findWithRoleByEmailAndStatusOrElseThrow(
+        request.getAccount().getEmail(),
+        request.getAccount().getStatus()
+    );
+    Group group = groupRepository.findGroupByCodeOrElseThrow(request.getCode());
 
-    Group group = groupRepository.findGroupByCode(request.getCode())
-        .orElseThrow(() -> new BadRequestException(
-            String.format("group code '%s' does not exist", request.getCode()),
-            ErrorCode.BAD_REQUEST));
-    group.addNickname(nickname);
-    group.addMenu(request.getMenu());
+    account.addNickname(nickname);
+    account.assignGuestRole();
+    group.addMenu(request.getMenus());
     groupRepository.save(group);
+    accountRepository.save(account);
 
     return GroupJoinWithCodeResponse.of(nickname);
   }

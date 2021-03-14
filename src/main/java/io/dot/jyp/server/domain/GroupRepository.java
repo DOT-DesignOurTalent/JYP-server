@@ -16,6 +16,13 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     }
   }
 
+  default Group findGroupByCodeOrElseThrow(String code) {
+    return this.findGroupByCode(code).orElseThrow(
+        () -> new BadRequestException(
+            String.format("group code '%s' does not exist", code),
+            ErrorCode.BAD_REQUEST));
+  }
+
   boolean existsByCode(String code);
 
   Optional<Group> findGroupByCode(String code);

@@ -1,6 +1,7 @@
 package io.dot.jyp.server.application.dto;
 
 import io.dot.jyp.server.domain.Account;
+import io.dot.jyp.server.domain.Menu;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class GroupCreateRequest {
 
   private Account account;
-  private List<String> menu;
+  private List<Menu> menus;
 }

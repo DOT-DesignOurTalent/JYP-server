@@ -33,11 +33,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Role extends DomainEntity {
 
   @Column(name = "name", nullable = false)
   @Enumerated(EnumType.STRING)
@@ -75,8 +71,8 @@ public class Role {
     this.permissions = permissions;
   }
 
-  public static Role of(Name name, List<Permission> permission) {
-    return new Role(name, permission);
+  public static Role of(Name name, List<Permission> permissions) {
+    return new Role(name, permissions);
   }
 
   public static String formatToGrantedAuthority(Resource resource, Permission permission) {
