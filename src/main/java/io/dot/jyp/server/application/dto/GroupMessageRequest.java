@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupMessageRequest {
-    private int id;
-    private int messageId;
+
+  private int id;
+  private int messageId;
 }

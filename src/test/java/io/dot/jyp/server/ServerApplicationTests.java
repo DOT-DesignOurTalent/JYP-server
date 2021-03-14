@@ -7,8 +7,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 class ServerApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+  @Test
+  void contextLoads() {
+  }
 
 }

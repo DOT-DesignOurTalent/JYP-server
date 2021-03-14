@@ -10,16 +10,18 @@ import org.springframework.stereotype.Component;
 @Component
 @Qualifier("accountDetailsService")
 public class DefaultAccountDetailsService implements UserDetailsService {
-    private final AccountRepository accountRepository;
 
-    public DefaultAccountDetailsService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+  private final AccountRepository accountRepository;
 
-    @Override
-    public DefaultAccountDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = this.accountRepository.findWithRoleByEmailAndStatus(email, Account.Status.ACTIVE)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
-        return DefaultAccountDetails.of(account);
-    }
+  public DefaultAccountDetailsService(AccountRepository accountRepository) {
+    this.accountRepository = accountRepository;
+  }
+
+  @Override
+  public DefaultAccountDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    Account account = this.accountRepository
+        .findWithRoleByEmailAndStatus(email, Account.Status.ACTIVE)
+        .orElseThrow(() -> new UsernameNotFoundException(email));
+    return DefaultAccountDetails.of(account);
+  }
 }

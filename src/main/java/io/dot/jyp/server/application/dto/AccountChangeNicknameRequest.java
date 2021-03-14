@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccountChangeNicknameRequest {
-    @Schema(required = true)
-    private String name;
+
+  @Schema(required = true)
+  private String name;
 }

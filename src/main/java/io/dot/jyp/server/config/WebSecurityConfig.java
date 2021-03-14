@@ -17,56 +17,57 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
 
-    public WebSecurityConfig(
-            @Qualifier("accountDetailsService") UserDetailsService userDetailsService
-    ) {
-        this.userDetailsService = userDetailsService;
-    }
+  private final UserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  public WebSecurityConfig(
+      @Qualifier("accountDetailsService") UserDetailsService userDetailsService
+  ) {
+    this.userDetailsService = userDetailsService;
+  }
 
-    @Override
-    public void configure(WebSecurity web) { // 5
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .httpBasic().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/", "/api/v1/**", "/test/**").permitAll()
-                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**").permitAll()
-                .antMatchers("/api/v1/user").hasRole("ORGANIZATION_USER")
-                .antMatchers("/api/v1/user/admin").hasRole("ORGANIZATION_ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/api/v1/user/login")
-                .permitAll()
-                .and()
-                .logout();
-        http
-                .requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
-    }
+  @Override
+  public void configure(WebSecurity web) { // 5
+    web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable()
+        .httpBasic().disable()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        .antMatchers("/", "/api/v1/**", "/test/**").permitAll()
+        .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**").permitAll()
+        .antMatchers("/api/v1/user").hasRole("ORGANIZATION_USER")
+        .antMatchers("/api/v1/user/admin").hasRole("ORGANIZATION_ADMIN")
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/api/v1/user/login")
+        .permitAll()
+        .and()
+        .logout();
+    http
+        .requiresChannel()
+        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+        .requiresSecure();
+  }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
+  }
+
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 }

@@ -4,11 +4,12 @@ import lombok.Data;
 
 @Data
 public class Map {
-    private String x;
-    private String y;
-    private Integer radius;
 
-    public String rect() {
-        return "";
-    }
+  private String x;
+  private String y;
+  private Integer radius;
+
+  public String rect() {
+    return "";
+  }
 }
