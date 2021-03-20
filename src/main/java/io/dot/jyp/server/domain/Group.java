@@ -1,5 +1,7 @@
 package io.dot.jyp.server.domain;
 
+
+import io.dot.jyp.server.domain.GroupMessage.MessageType;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.Column;
@@ -63,5 +65,15 @@ public class Group extends DomainEntity {
             .filter(menu -> !this.menus.contains(menu))
             .collect(Collectors.toList())
     );
+  }
+  public GroupMessage handleGroupMessage(GroupMessage groupMessage){
+    if(groupMessage.getType().equals(MessageType.ADD_MENUS)){
+      String message = "";
+      for (Menu menu : this.menus){
+        message = menu.getName()+",";
+      }
+      groupMessage.setMessage(message);
+    }
+    return groupMessage;
   }
 }
