@@ -13,17 +13,11 @@ public enum Permission {
 
   // Group Permission
   GROUP_CREATE(Name.GROUP_CREATE, Resource.Type.GROUP),
+  GROUP_JOIN(Name.GROUP_JOIN, Type.GROUP),
   GROUP_INVITE_USERS(Name.GROUP_INVITE_USERS, Resource.Type.GROUP),
   GROUP_REMOVE(Name.GROUP_REMOVE, Resource.Type.GROUP),
-  GROUP_CHANGE_USERS_ROLE(Name.GROUP_CHANGE_USERS_ROLE, Resource.Type.GROUP),
-
-  // Game Permission
-  GAME_READY(Name.GAME_READY, Resource.Type.GAME),
-  GAME_START(Name.GAME_START, Resource.Type.GAME),
-  GAME_RE_START(Name.GAME_RE_START, Resource.Type.GAME),
-  GAME_REQUEST_APPEAL(Name.GAME_REQUEST_APPEAL, Resource.Type.GAME),
-  GAME_APPROVE_APPEAL(Name.GAME_APPROVE_APPEAL, Resource.Type.GAME),
-  GAME_DECLINE_APPEAL(Name.GAME_DECLINE_APPEAL, Resource.Type.GAME);
+  GROUP_CHANGE_ROLE(Name.GROUP_CHANGE_ROLE, Resource.Type.GROUP),
+  GROUP_START_JUDGEMENT(Name.GROUP_START_JUDGEMENT, Resource.Type.GROUP);
 
   private final String name;
   private final Resource.Type target;
@@ -48,15 +42,10 @@ public enum Permission {
     public static final String ORGANIZATION_WITHDRAWAL = "ORGANIZATION_WITHDRAWAL";
 
     public static final String GROUP_CREATE = "GROUP_CREATE";
+    public static final String GROUP_JOIN = "GROUP_JOIN";
     public static final String GROUP_INVITE_USERS = "GROUP_INVITE_USERS";
     public static final String GROUP_REMOVE = "GROUP_REMOVE";
-    public static final String GROUP_CHANGE_USERS_ROLE = "GROUP_CHANGE_USERS_ROLE";
-
-    public static final String GAME_READY = "GAME_READY";
-    public static final String GAME_START = "GAME_START";
-    public static final String GAME_RE_START = "GAME_RE_START";
-    public static final String GAME_REQUEST_APPEAL = "GAME_REQUEST_APPEAL";
-    public static final String GAME_APPROVE_APPEAL = "GAME_APPROVE_APPEAL";
-    public static final String GAME_DECLINE_APPEAL = "GAME_DECLINE_APPEAL";
+    public static final String GROUP_CHANGE_ROLE = "GROUP_CHANGE_ROLE";
+    public static final String GROUP_START_JUDGEMENT = "GROUP_START_JUDGEMENT";
   }
 }

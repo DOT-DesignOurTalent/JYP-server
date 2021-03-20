@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: "jypdev"
       POSTGRES_PASSWORD: "password"
-      POSTGRES_DB: "jyp-dev"
+      POSTGRES_DB: "jypdb"
     logging:
       driver: "json-file"
       options:

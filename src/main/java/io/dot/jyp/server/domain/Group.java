@@ -1,6 +1,5 @@
 package io.dot.jyp.server.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.Column;
@@ -14,7 +13,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -52,6 +50,7 @@ public class Group extends DomainEntity {
       List<Menu> menus,
       String code
   ) {
+
     return new Group(
         menus,
         code
@@ -61,8 +60,8 @@ public class Group extends DomainEntity {
   public void addMenu(List<Menu> menus) {
     this.menus.addAll(
         menus.stream()
-        .filter(menu -> !this.menus.contains(menu))
-        .collect(Collectors.toList())
+            .filter(menu -> !this.menus.contains(menu))
+            .collect(Collectors.toList())
     );
   }
 }

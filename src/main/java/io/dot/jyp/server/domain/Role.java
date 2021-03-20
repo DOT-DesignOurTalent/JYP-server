@@ -14,9 +14,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -115,18 +112,6 @@ public class Role extends DomainEntity {
     return this.isSameRole(Name.GROUP_GUEST);
   }
 
-  public boolean isJudge() {
-    return this.isSameRole(Name.GAME_JUDGE);
-  }
-
-  public boolean isJuror() {
-    return this.isSameRole(Name.GAME_JUROR);
-  }
-
-  public boolean isViewer() {
-    return this.isSameRole(Name.GAME_VIEWER);
-  }
-
   public boolean isSameRole(Name name) {
     return this.name.equals(name);
   }
@@ -141,13 +126,10 @@ public class Role extends DomainEntity {
     ORGANIZATION_ADMIN("ORGANIZATION_ADMIN", Resource.Type.ORGANIZATION),
     ORGANIZATION_MANAGER("ORGANIZATION_MANAGER", Resource.Type.ORGANIZATION),
     ORGANIZATION_USER("ORGANIZATION_USER", Resource.Type.ORGANIZATION),
+    ORGANIZATION_GUEST("ORGANIZATION_GUEST", Resource.Type.ORGANIZATION),
 
     GROUP_HOST("GROUP_HOST", Resource.Type.GROUP),
-    GROUP_GUEST("GROUP_GUEST", Resource.Type.GROUP),
-
-    GAME_JUDGE("GAME_JUDGE", Resource.Type.GAME),
-    GAME_JUROR("GAME_JUROR", Resource.Type.GAME),
-    GAME_VIEWER("GAME_VIEWER", Resource.Type.GAME);
+    GROUP_GUEST("GROUP_GUEST", Resource.Type.GROUP);
 
     private final String name;
     private final Resource.Type target;

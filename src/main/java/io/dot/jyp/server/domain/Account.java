@@ -4,8 +4,6 @@ import io.dot.jyp.server.domain.Role.Name;
 import io.dot.jyp.server.domain.exception.AuthenticationException;
 import io.dot.jyp.server.domain.exception.BadRequestException;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,12 +73,14 @@ public class Account extends DomainEntity {
             Role.of(
                 Role.Name.ORGANIZATION_USER,
                 Arrays.asList(
-                    Permission.GROUP_CREATE
+                    Permission.GROUP_CREATE,
+                    Permission.GROUP_JOIN
                 )
             )
         )
     );
   }
+
   public void addNickname(String nickname) {
     this.nickname = nickname;
   }
@@ -91,29 +91,15 @@ public class Account extends DomainEntity {
             Role.of(
                 Name.GROUP_HOST,
                 Arrays.asList(
-                    Permission.GROUP_INVITE_USERS,
-                    Permission.GROUP_CHANGE_USERS_ROLE,
+                    Permission.GROUP_CHANGE_ROLE,
                     Permission.GROUP_REMOVE,
-                    Permission.GAME_START
+                    Permission.GROUP_START_JUDGEMENT
                 )
             )
         )
     );
   }
 
-  public void assignGuestRole() {
-    this.addRoles(
-        Collections.singletonList(
-            Role.of(
-                Name.GROUP_GUEST,
-                Arrays.asList(
-                    Permission.GROUP_INVITE_USERS,
-                    Permission.GAME_READY
-                )
-            )
-        )
-    );
-  }
 
   public void addRoles(List<Role> newRoles) {
     newRoles.forEach(this::addRole);
