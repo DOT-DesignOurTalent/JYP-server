@@ -49,10 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/v1/user/admin").hasRole("ORGANIZATION_ADMIN")
         .anyRequest().authenticated()
         .and()
-        .formLogin()
-        .loginPage("/api/v1/user/login")
-        .permitAll()
-        .and()
+        .formLogin().disable()
         .logout();
     http
         .requiresChannel()

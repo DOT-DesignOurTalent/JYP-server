@@ -11,8 +11,6 @@ import io.dot.jyp.server.domain.Group;
 import io.dot.jyp.server.domain.GroupRepository;
 import io.dot.jyp.server.domain.RandomValueGenerator;
 import io.dot.jyp.server.domain.RoleRepository;
-import io.dot.jyp.server.domain.exception.BadRequestException;
-import io.dot.jyp.server.domain.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -79,7 +77,6 @@ public class GroupApplicationService {
     Group group = groupRepository.findGroupByCodeOrElseThrow(request.getCode());
 
     account.addNickname(nickname);
-    account.assignGuestRole();
     group.addMenu(request.getMenus());
     groupRepository.save(group);
     accountRepository.save(account);

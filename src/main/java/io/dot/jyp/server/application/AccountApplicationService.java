@@ -8,8 +8,6 @@ import io.dot.jyp.server.domain.AccountRepository;
 import io.dot.jyp.server.domain.PassphraseEncoder;
 import io.dot.jyp.server.domain.PassphraseVerifier;
 import io.dot.jyp.server.domain.RoleRepository;
-import io.dot.jyp.server.domain.exception.BadRequestException;
-import io.dot.jyp.server.domain.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,13 +51,8 @@ public class AccountApplicationService {
 
   @Transactional
   public void login(AccountLoginRequest request) {
-    String email = request.getEmail();
-    Account account = accountRepository.findByEmail(request.getEmail())
-        .orElseThrow(
-            () -> new BadRequestException(String.format("user email '%s' does not exist", email),
-                ErrorCode.EMAIL_DOES_NOT_EXIST));
+    Account account = accountRepository.findByEmailOrElseThrow(request.getEmail());
     this.passphraseVerifier.validate(account.getEmail(), request.getPassphrase());
-    this.accountRepository.save(account);
   }
 
   @Transactional
@@ -72,5 +65,4 @@ public class AccountApplicationService {
   public void verifyPassphrase(String email, String passphrase) {
     this.passphraseVerifier.validate(email, passphrase);
   }
-
 }

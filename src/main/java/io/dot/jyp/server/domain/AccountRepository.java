@@ -30,6 +30,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         () -> new BadRequestException(String.format("Account '%s' does not exist", id)));
   }
 
+  default Account findByEmailOrElseThrow(String email) {
+    return this.findByEmail(email).orElseThrow(
+        () -> new BadRequestException(String.format("Account '%s' does not exist", email),
+            ErrorCode.EMAIL_DOES_NOT_EXIST));
+  }
+
   default Account findWithRoleByEmailAndStatusOrElseThrow(String email, Account.Status status) {
     return this.findWithRoleByEmailAndStatus(email, status).orElseThrow(
         () -> new BadRequestException(String.format("Account '%s' does not exist", email)));

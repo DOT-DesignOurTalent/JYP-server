@@ -2,9 +2,9 @@ spring:
   application:
     name: jyp-server-local
   datasource:
-    url: jdbc:postgresql://ec2-35-174-118-71.compute-1.amazonaws.com:5432/danlit9ahtirmh?password=c86da47781a4b353361c1a3c63fefc9f40bca067fffddd06b5f7bff23db36036&sslmode=require&user=kvjrieirtrzhmo
-    username: kvjrieirtrzhmo
-    password: c86da47781a4b353361c1a3c63fefc9f40bca067fffddd06b5f7bff23db36036
+    url: jdbc:postgresql://localhost:5432/jypdb
+    username: jypdev
+    password: password
     platform: postgres
     hikari:
       auto-commit: false
@@ -17,7 +17,7 @@ spring:
         stringtype: unspecified
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
