@@ -27,12 +27,4 @@ public abstract class DomainEntity {
   @Column(updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  @LastModifiedDate
-  @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
-
-  @CreatedDate
-  @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt;
 }

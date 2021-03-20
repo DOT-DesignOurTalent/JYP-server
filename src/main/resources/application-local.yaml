@@ -15,6 +15,12 @@ spring:
       connection-timeout: 20000
       data-source-properties:
         stringtype: unspecified
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: jypdev
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -50,8 +56,6 @@ app:
 
   cloud:
     aws:
-
-  web:
 
   social:
     kakao:

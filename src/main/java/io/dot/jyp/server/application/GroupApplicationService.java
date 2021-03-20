@@ -11,6 +11,7 @@ import io.dot.jyp.server.domain.Group;
 import io.dot.jyp.server.domain.GroupRepository;
 import io.dot.jyp.server.domain.RandomValueGenerator;
 import io.dot.jyp.server.domain.RoleRepository;
+import io.dot.jyp.server.infra.message.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,16 @@ public class GroupApplicationService {
   private final String nicknamePath;
   private final RandomValueGenerator randomValueGenerator;
 
+  private final EventDispatcher eventDispatcher;
+
   public GroupApplicationService(
       GroupRepository groupRepository,
       RoleRepository roleRepository,
       AccountRepository accountRepository,
       @Qualifier("OpenCsvClient") FileIoClient fileIoClient,
       @Qualifier("nicknamePath") String nicknamePath,
-      RandomValueGenerator randomValueGenerator
+      RandomValueGenerator randomValueGenerator,
+      EventDispatcher eventDispatcher
   ) {
     this.groupRepository = groupRepository;
     this.roleRepository = roleRepository;
@@ -41,6 +45,7 @@ public class GroupApplicationService {
     this.fileIoClient = fileIoClient;
     this.nicknamePath = nicknamePath;
     this.randomValueGenerator = randomValueGenerator;
+    this.eventDispatcher = eventDispatcher;
   }
 
   @Transactional
@@ -80,6 +85,9 @@ public class GroupApplicationService {
     group.addMenu(request.getMenus());
     groupRepository.save(group);
     accountRepository.save(account);
+
+
+    eventDispatcher.joinMessage(group);
 
     return GroupJoinWithCodeResponse.of(nickname);
   }

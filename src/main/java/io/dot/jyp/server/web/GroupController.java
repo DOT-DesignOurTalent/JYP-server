@@ -5,6 +5,7 @@ import io.dot.jyp.server.application.dto.GroupCreateRequest;
 import io.dot.jyp.server.application.dto.GroupCreateResponse;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeRequest;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeResponse;
+import io.dot.jyp.server.domain.Group;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,11 @@ public class GroupController {
   public GroupJoinWithCodeResponse enterWithCode(
       @RequestBody final GroupJoinWithCodeRequest request) {
     return groupApplicationService.joinWithCode(request);
+  }
+
+  @PostMapping("/send")
+  @ResponseStatus(value = HttpStatus.OK)
+  public Group send(Group group) {
+    return group;
   }
 }

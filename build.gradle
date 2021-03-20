@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'junit:junit:4.12'
     implementation 'junit:junit:4.12'
     implementation group: 'com.opencsv', name: 'opencsv', version: '5.3'
@@ -36,6 +37,7 @@ dependencies {
     annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
 
     implementation 'org.apache.httpcomponents:httpclient:4.5'
     implementation group: 'org.json', name: 'json', version: '20190722'

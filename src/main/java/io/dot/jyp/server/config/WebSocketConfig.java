@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(webSocketHandler, "/ws/group/{groupCode}").setAllowedOrigins("*")
-        .withSockJS();
+    registry.addHandler(webSocketHandler, "/group/{groupCode}")
+        .setAllowedOrigins("*");
   }
 }
