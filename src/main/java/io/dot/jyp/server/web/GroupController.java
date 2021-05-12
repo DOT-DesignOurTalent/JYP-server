@@ -6,6 +6,9 @@ import io.dot.jyp.server.application.dto.GroupCreateResponse;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeRequest;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeResponse;
 import io.dot.jyp.server.domain.Group;
+import io.dot.jyp.server.domain.Menu;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,12 @@ public class GroupController {
 
   public GroupController(GroupApplicationService groupApplicationSService) {
     this.groupApplicationService = groupApplicationSService;
+  }
+
+  @PostMapping("/temp-create")
+  @ResponseStatus(value = HttpStatus.CREATED)
+  public void create() {
+    groupApplicationService.testCreate();
   }
 
   @PostMapping("/create")

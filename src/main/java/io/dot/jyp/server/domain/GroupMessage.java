@@ -12,10 +12,11 @@ import lombok.Setter;
 public class GroupMessage {
 
   public enum MessageType {
-    ENTER, TALK, EXIT, START, READY, ADD_MENUS
+    ENTER, TALK, EXIT, START, READY
   }
   private MessageType type;
   private String code;
+  private String sender;
   private int senderPosition;
   private String message;
 }
