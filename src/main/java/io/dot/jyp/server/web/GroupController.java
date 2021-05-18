@@ -28,12 +28,6 @@ public class GroupController {
     this.groupApplicationService = groupApplicationSService;
   }
 
-  @PostMapping("/temp-create")
-  @ResponseStatus(value = HttpStatus.CREATED)
-  public void create() {
-    groupApplicationService.testCreate();
-  }
-
   @PostMapping("/create")
   @ResponseStatus(value = HttpStatus.CREATED)
   public GroupCreateResponse create(@RequestBody final GroupCreateRequest request) {
@@ -52,4 +46,6 @@ public class GroupController {
   public Group send(Group group) {
     return group;
   }
+
+
 }

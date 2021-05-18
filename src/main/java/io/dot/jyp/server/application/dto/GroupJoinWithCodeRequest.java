@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GroupJoinWithCodeRequest {
 
-  private Account account;
   private String code;
   private List<Menu> menus;
 }

@@ -4,7 +4,6 @@ import io.dot.jyp.server.application.dto.GroupCreateRequest;
 import io.dot.jyp.server.application.dto.GroupCreateResponse;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeRequest;
 import io.dot.jyp.server.application.dto.GroupJoinWithCodeResponse;
-import io.dot.jyp.server.domain.Account;
 import io.dot.jyp.server.domain.AccountRepository;
 import io.dot.jyp.server.domain.FileIoClient;
 import io.dot.jyp.server.domain.Group;
@@ -14,10 +13,10 @@ import io.dot.jyp.server.domain.GroupRepository;
 import io.dot.jyp.server.domain.Menu;
 import io.dot.jyp.server.domain.RandomValueGenerator;
 import io.dot.jyp.server.domain.RoleRepository;
-import java.util.ArrayList;
-import java.util.List;
+import io.dot.jyp.server.web.GroupController;
+import io.dot.jyp.server.web.MessageController;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,40 +51,28 @@ public class GroupApplicationService {
   }
 
   @Transactional
-  public void testCreate(){
-    List<Menu> tempMenu = new ArrayList<>();
-    tempMenu.add(Menu.KOREAN);
-    Group group = Group.create(
-        tempMenu,
-        "testCode"
-    );
-    groupRepository.save(group);
-  }
-  @Transactional
   public GroupCreateResponse create(GroupCreateRequest request) {
     String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
-
-    Account account = accountRepository.findWithRoleByEmailAndStatusOrElseThrow(
-        request.getAccount().getEmail(),
-        request.getAccount().getStatus()
-    );
 
     Group group = Group.create(
         request.getMenus(),
         randomValueGenerator.generateRandomCode()
     );
 
+    String menus=request.getMenus().stream()
+        .map(s->s.getName())
+        .collect(Collectors.joining(","));
+    for(Menu i : request.getMenus()){
+      menus +=i.getName();
+    }
+
     GroupMessage groupMessage = new GroupMessage(
         MessageType.ENTER,
         group.getCode(),
         nickname,
         1,
-        "  ");
-
-    account.addNickname(nickname);
-    account.assignHostRole();
+        menus);
     groupRepository.save(group);
-    accountRepository.save(account);
 
     return GroupCreateResponse.of(
         group.getCode(),
@@ -96,23 +83,25 @@ public class GroupApplicationService {
   @Transactional
   public GroupJoinWithCodeResponse joinWithCode(GroupJoinWithCodeRequest request) {
     String nickname = fileIoClient.readCsvFile(nicknamePath).generateRandomText();
-    Account account = accountRepository.findWithRoleByEmailAndStatusOrElseThrow(
-        request.getAccount().getEmail(),
-        request.getAccount().getStatus()
-    );
+
     Group group = groupRepository.findGroupByCodeOrElseThrow(request.getCode());
+
+    String menus=request.getMenus().stream()
+        .map(s->s.getName())
+        .collect(Collectors.joining(","));
+    for(Menu i : request.getMenus()){
+      menus +=i.getName();
+    }
 
     GroupMessage groupMessage = new GroupMessage(
         MessageType.ENTER,
         group.getCode(),
         nickname,
-        1,
-        "  ");
+        2,
+        menus);
 
-    account.addNickname(nickname);
     group.addMenu(request.getMenus());
     groupRepository.save(group);
-    accountRepository.save(account);
 
     return GroupJoinWithCodeResponse.of(nickname);
   }

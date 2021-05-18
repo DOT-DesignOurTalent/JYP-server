@@ -13,6 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupCreateRequest {
 
-  private Account account;
   private List<Menu> menus;
 }
